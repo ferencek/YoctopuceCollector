@@ -3,6 +3,7 @@
 import os,sys
 import shlex, subprocess
 import logging
+import getpass
 import math
 
 from yoctopuce.yocto_api import *
@@ -14,7 +15,8 @@ from yoctopuce.yocto_pressure import *
 def setup_custom_logger(name):
     formatter = logging.Formatter(fmt='%(asctime)s %(levelname)-8s %(message)s',
                                   datefmt='%Y-%m-%d %H:%M:%S')
-    handler = logging.FileHandler('/tmp/yoctopuce.log', mode='a')
+    log_file = ('/var/log/yoctopuce.log' if getpass.getuser() == 'root' else '/tmp/yoctopuce.log')
+    handler = logging.FileHandler(log_file, mode='a')
     handler.setFormatter(formatter)
     screen_handler = logging.StreamHandler(stream=sys.stdout)
     screen_handler.setFormatter(formatter)
