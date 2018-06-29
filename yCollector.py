@@ -67,7 +67,7 @@ def main(host='localhost', port=8086, db='mydb'):
         pressSensor = YPressure.FindPressure(target+'.pressure')
         tempSensor = YTemperature.FindTemperature(target+'.temperature')
         #-----------------
-        logger.info("Obtaining sensor readings...")
+        logger.info("Obtaining readings from sensor %s..." % name)
         hum = humSensor.get_currentValue()
         press = pressSensor.get_currentValue()
         temp = tempSensor.get_currentValue()
