@@ -73,11 +73,15 @@ def main(host='localhost', port=8086, db='mydb'):
         temp = tempSensor.get_currentValue()
         dew = dew_point(temp, hum)
 
+        logger.info("Readings obtained")
+
         cmd = "curl -i -XPOST 'http://%s:%i/write?db=%s' --data-binary 'yoctopuce %s=%f,%s=%f,%s=%f,%s=%f'"%(host,port,db,name+'_humidity',hum,name+'_pressure',press,name+'_temperature',temp,name+'_dewpoint',dew)
         #print cmd
         args = shlex.split(cmd)
         #print args
 
+        logger.info("Sending sensor readings to the database...")
+        
         proc = subprocess.Popen( args, stdout = subprocess.PIPE, stderr = subprocess.STDOUT )
         output = proc.communicate()[0]
         if proc.returncode != 0:
@@ -86,7 +90,7 @@ def main(host='localhost', port=8086, db='mydb'):
         else:
             logger.debug(output)
 
-        logger.info("Sensor readings sent to the database.")
+        logger.info("Sensor readings sent to the database")
 
 if __name__ == '__main__':
     main('elrond.irb.hr',8086,'PixelLab_sensors')
